@@ -22,7 +22,7 @@ This tool detects registered typo-squatting domains that are similar to legitima
 2. **Install dependencies:**
 
    ```sh
-   pip install openai python-dotenv dnspython
+   pip install -r requirements.txt
    ```
 
 3. **Create a **\`\`** file** in the same directory as the script with your configuration:
@@ -41,7 +41,7 @@ This tool detects registered typo-squatting domains that are similar to legitima
 
 ## Usage
 
-1. **Prepare an input file** (e.g., `domains.txt`) with one domain per line:
+1. **Prepare an input file** (e.g., `targets.txt`) with one domain per line:
 
    ```
    example.com
