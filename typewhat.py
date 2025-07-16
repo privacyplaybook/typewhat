@@ -116,6 +116,6 @@ def main(input_filename, output_filename):
 if __name__ == "__main__":
     import sys
     if len(sys.argv) != 3:
-        print("Usage: python typosquat_whois_check.py <input_file.txt> <output_file.txt>")
+        print("Usage: python typewhat.py <input_file.txt> <output_file.txt>")
         exit(1)
     main(sys.argv[1], sys.argv[2])

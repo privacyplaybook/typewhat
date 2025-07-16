@@ -58,7 +58,7 @@ Detect registered typo-squatting domains for a list of input domains, and check 
 2. **Run the script:**
 
    ```sh
-   python typosquat_whois_check.py domains.txt typosquat_results.txt
+   python typewhat.py domains.txt typosquat_results.txt
    ```
 
    * The first argument is your input file.
