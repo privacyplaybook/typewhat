@@ -1,23 +1,21 @@
-# Typo Squatting Domain Detector
+# Typo Squatting Domain Detector with WHOIS Check
 
-This tool detects registered typo-squatting domains that are similar to legitimate domains you specify. It uses the OpenAI API to generate plausible typo variants for each domain and then checks whether those variants are already registered by querying DNS records.
+Detect registered typo-squatting domains for a list of input domains, and check if they are owned by the same entity as the original. The tool uses the OpenAI API to generate typo variants and checks their registration and WHOIS info.
+
+---
 
 ## Features
 
-* **Generates typo-squatting variants** using OpenAI LLMs (e.g., GPT-4, GPT-4o).
-* **Customizable output:** Choose how many typo variants to generate per domain.
-* **DNS record check:** Specify which DNS record types to check (A, MX, etc., or ALL).
-* **Simple input/output:** Works with plain text files for easy automation and scripting.
+* Generates typo-squatting domain variants using OpenAI LLMs
+* Checks DNS records to see if the typo domain is registered
+* Performs WHOIS lookups to compare the owner/organization with the original domain
+* Outputs a summary including registration and owner comparison
 
-## Prerequisites
-
-* Python 3.7+
-* [OpenAI API key](https://platform.openai.com/signup)
-* Basic knowledge of the command line
+---
 
 ## Installation
 
-1. **Clone the repository or copy the script** to your machine.
+1. **Clone or Download** this repository, or copy the Python script files to your directory.
 
 2. **Install dependencies:**
 
@@ -25,60 +23,75 @@ This tool detects registered typo-squatting domains that are similar to legitima
    pip install -r requirements.txt
    ```
 
-3. Create a **`.env`** file in the same directory as the script with your configuration:
+   *Dependencies: `openai`, `python-dotenv`, `dnspython`, `python-whois`*
+
+3. **Create a `.env` file** in the same folder with these contents:
 
    ```env
    TYPO_COUNT=10
    DNS_TYPE=ALL
-   OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
    OPENAI_MODEL=gpt-4o
+   OPENAI_TIMEOUT=60
+   WHOIS_DELAY=1.5
    ```
 
-   * `TYPO_COUNT`: (Optional) Number of typo variants to generate per domain (default: 10)
-   * `DNS_TYPE`: (Optional) DNS record type to check, e.g., `A`, `MX`, `CNAME`, or `ALL` (default: ALL)
-   * `OPENAI_API_KEY`: **Required** – your OpenAI API key
-   * `OPENAI_MODEL`: (Optional) OpenAI model name (default: `gpt-4o`)
+   * `TYPO_COUNT` = Max number of typos generated per domain (default 10)
+   * `DNS_TYPE` = DNS record to check (`A`, `MX`, `CNAME`, or `ALL` for all; default ALL)
+   * `OPENAI_API_KEY` = Your OpenAI API key
+   * `OPENAI_MODEL` = OpenAI model to use (e.g., `gpt-4o`)
+   * `OPENAI_TIMEOUT` = OpenAI API call timeout (seconds)
+   * `WHOIS_DELAY` = Delay (seconds) between WHOIS queries (to avoid rate-limiting)
+
+---
 
 ## Usage
 
-1. **Prepare an input file** (e.g., `targets.txt`) with one domain per line:
+1. **Prepare an input file** (e.g., `domains.txt`) with one domain per line:
 
    ```
-   example.com
-   mysite.org
-   anotherdomain.net
+   google.com
+   example.org
+   mysite.net
    ```
 
 2. **Run the script:**
 
    ```sh
-   python detect_typosquat.py targets.txt typosquat_found.txt
+   python typosquat_whois_check.py domains.txt typosquat_results.txt
    ```
 
-   * `targets.txt` – input file with domains to check
-   * `typosquat_found.txt` – output file with registered typo domains
+   * The first argument is your input file.
+   * The second argument is the output results file.
 
-3. **Review the output:**
-   The output file (`typosquat_found.txt`) will contain a list of typo domains that are currently registered (one per line).
+3. **Review the output**
 
-## Example
+   The output file (`typosquat_results.txt`) will contain lines like:
 
-```
-$ python detect_typosquat.py targets.txt typosquat_found.txt
-Generating typos for: example.com
-Checking exmaple.com ... REGISTERED
-Checking exampl.com ... not registered
-Checking exapmle.com ... REGISTERED
-...
-Detection complete. Found 2 registered typos.
-```
+   ```
+   gooogle.com	registered=True	whois=Google LLC	same_owner=True
+   googl.com	registered=True	whois=Namecheap, Inc.	same_owner=False
+   goggle.com	registered=True	whois=None	same_owner=False
+   ```
 
-## Notes
+   Each line gives:
 
-* **API usage**: Generating typo variants with OpenAI may consume tokens and incur costs.
-* **DNS checks**: Not all registered domains respond to all DNS record queries; some false negatives may occur.
-* **Rate limiting**: For large inputs, consider adding delays or batching to avoid API and DNS rate limits.
+   * The typo domain
+   * Whether it's registered
+   * Its WHOIS organization info (if available)
+   * Whether the owner matches the original domain
+
+---
+
+## Notes & Limitations
+
+* WHOIS info is sometimes unavailable, privacy-protected, or inconsistent.
+* Typo generation uses OpenAI and may incur API cost.
+* Avoid running against large lists too quickly (WHOIS lookups may get rate-limited; use `WHOIS_DELAY`).
+* Not all domains will have clear/consistent organization info in WHOIS.
+
+---
 
 ## License
 
-MIT License
+MIT License (add your preferred license here).
