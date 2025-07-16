@@ -14,6 +14,10 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 OPENAI_TIMEOUT = int(os.getenv("OPENAI_TIMEOUT", 60))
 WHOIS_DELAY = float(os.getenv("WHOIS_DELAY", 1.5))  # seconds between WHOIS queries
 
+if not OPENAI_API_KEY:
+    print("Error: OPENAI_API_KEY not set")
+    exit(1)
+
 openai.api_key = OPENAI_API_KEY
 
 def generate_typos(domain, typo_count):
