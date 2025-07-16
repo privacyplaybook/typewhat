@@ -25,7 +25,7 @@ This tool detects registered typo-squatting domains that are similar to legitima
    pip install -r requirements.txt
    ```
 
-3. **Create a **\`\`** file** in the same directory as the script with your configuration:
+3. Create a **`.env`** file in the same directory as the script with your configuration:
 
    ```env
    TYPO_COUNT=10
