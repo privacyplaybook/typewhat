@@ -52,10 +52,10 @@ This tool detects registered typo-squatting domains that are similar to legitima
 2. **Run the script:**
 
    ```sh
-   python detect_typosquat.py domains.txt typosquat_found.txt
+   python detect_typosquat.py targets.txt typosquat_found.txt
    ```
 
-   * `domains.txt` – input file with domains to check
+   * `targets.txt` – input file with domains to check
    * `typosquat_found.txt` – output file with registered typo domains
 
 3. **Review the output:**
@@ -64,7 +64,7 @@ This tool detects registered typo-squatting domains that are similar to legitima
 ## Example
 
 ```
-$ python detect_typosquat.py domains.txt typosquat_found.txt
+$ python detect_typosquat.py targets.txt typosquat_found.txt
 Generating typos for: example.com
 Checking exmaple.com ... REGISTERED
 Checking exampl.com ... not registered
