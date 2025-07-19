@@ -1,0 +1,4 @@
+# Additional type hints for mypy
+# These stub packages provide type information for optional dependencies
+types-openai
+types-python-dateutil
