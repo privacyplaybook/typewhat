@@ -1,3 +1,5 @@
+![AI-Generated](https://img.shields.io/badge/code-AI--generated-blueviolet)
+
 # Typo Squatting Domain Detector with WHOIS Check
 
 Detect registered typo-squatting domains for a list of input domains, and check if they are owned by the same entity as the original. The tool uses the OpenAI API to generate typo variants and checks their registration and WHOIS info.
